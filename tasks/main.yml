@@ -4,12 +4,18 @@
   include_vars: 'repo.yml'
 
 - name: Check OS support
-  debug: msg="The following OS family {{ ansible_os_family }} {{ ansible_architecture }} is not supported" fail=yes
+  fail: msg="The following OS family {{ ansible_os_family }} {{ ansible_architecture }} is not supported" 
   when: not ansible_os_family == "RedHat" or not ansible_architecture == "x86_64"
 
+- name: Display OS support
+  debug: msg="Debugging OS family {{ ansible_os_family }} {{ ansible_architecture }}"
+
 - name: Check package manager support
-  debug: msg="The following package manager {{ ansible_pkg_mgr }} is not supported" fail=yes
+  fail: msg="The following package manager {{ ansible_pkg_mgr }} is not supported"
   when: not ansible_pkg_mgr == "yum"
+
+- name: Display Package Manager support
+  debug: msg="Debugging Package Manager {{ ansible_pkg_mgr }}"
 
 - include: install.yml
 - include: configure.yml
